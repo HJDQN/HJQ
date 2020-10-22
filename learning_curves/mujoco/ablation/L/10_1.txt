@@ -1,0 +1,17 @@
+render = False
+device = cuda
+eval_interval = 2000
+start_train = 10000
+train_interval = 50
+batch_size = 128
+fill_buffer = 20000
+buffer_size = 1000000.0
+max_iter = 1000000.0
+hidden2 = 256
+hidden1 = 256
+polyak = 0.001
+sigma = 0.1
+lr = 0.0005
+gamma = 0.99
+L = 10.0
+env_id = Swimmer-v2
