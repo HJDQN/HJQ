@@ -4,7 +4,7 @@ import gym
 import mujoco_py
 from algorithms.hjdqn.hjdqn_agent import HJDQNAgent
 from algorithms.utils import set_log_dir, get_env_spec, scaled_env
-from algorithms.noise import IndependentGaussian, Zero
+from algorithms.noise import IndependentGaussian, Zero, SDE
 import gym_lqr
 from gym.envs.mujoco import MujocoEnv
 
@@ -65,12 +65,13 @@ def run_hjdqn(env_id,
     test_env = scaled_env(env_id=env_id, scale_factor=h_scale)
 
     if ep_len is None:
+
         max_ep_len = env._max_episode_steps
     else:
         # in case episode limit is specified as a parameter
         max_ep_len = ep_len
 
-    dimS, dimA, h, ctrl_range, max_ep_len = get_env_spec(env)
+    dimS, dimA, h, ctrl_range = get_env_spec(env)
 
     # scale gamma & learning rate
     gamma = 1. - h_scale * (1. - gamma)
@@ -116,6 +117,9 @@ def run_hjdqn(env_id,
     # set noise process for exploration
     if noise == 'gaussian':
         noise_process = IndependentGaussian(dim=dimA, sigma=sigma)
+    elif noise == 'sde':
+        print('noise set to Ornstein-Uhlenbeck process')
+        noise_process = SDE(dim=dimA, sigma=sigma, dt=h)
     else:
         print('unidentified noise type : noise process is set to zero')
         noise_process = Zero(dim=dimA)

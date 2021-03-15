@@ -85,7 +85,7 @@ Since the default experimental setting of our code is MuJoCo-oriented, you need 
 For instance, to reproduce the result over 20-dimensional LQR with HJ DQN, run the following command:
 
 ```
-$ python main --env=LinearQuadraticRegulator20D-v0 --algo=hjdqn --L=10 --lr=1e-3 --max_iter=2e4 --ep_len=1 --eval_interval=50 ----fill_buffer=0 --start_train=400 --batch_size=512
+$ python main.py --env=LinearQuadraticRegulator20D-v0 --algo=hjdqn --L=10 --lr=1e-3 --max_iter=2e4 --ep_len=1 --eval_interval=50 --fill_buffer=0 --start_train=400 --batch_size=512 --gamma=0.99999
 ```
 
 A detailed analysis of the result can be found in the paper. Here we include figures which show the experimental results at once.

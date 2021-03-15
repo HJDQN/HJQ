@@ -189,6 +189,7 @@ class HJDQNAgent:
             noise = np.zeros(self.dimA)
 
             action = 0.1 * test_env.action_space.sample()
+            # action = test_env.action_space.sample()
             step_count = 0
             ep_reward = 0
             done = False

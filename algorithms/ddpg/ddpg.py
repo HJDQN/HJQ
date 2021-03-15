@@ -23,6 +23,7 @@ def run_ddpg(env_id,
              fill_buffer=20000,
              batch_size=128,
              h_scale=1.0,
+             ep_len=None,
              device='cpu',
              render='False'
              ):
@@ -56,7 +57,12 @@ def run_ddpg(env_id,
 
     env = gym.make(env_id)
 
-    dimS, dimA, _, ctrl_range, max_ep_len = get_env_spec(env)
+    dimS, dimA, _, ctrl_range = get_env_spec(env)
+
+    if ep_len is None:
+        max_ep_len = env._max_episode_steps
+    else:
+        max_ep_len = ep_len
 
     agent = DDPGAgent(dimS,
                       dimA,

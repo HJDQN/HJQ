@@ -25,11 +25,13 @@ parser.add_argument('--train_interval', required=False, default=50, type=int)
 parser.add_argument('--start_train', required=False, default=10000, type=int)
 parser.add_argument('--fill_buffer', required=False, default=20000, type=int)
 parser.add_argument('--h_scale', required=False, default=1.0, type=float)
-parser.add_argument('--ep_len', required=False, default=None, type=float)
+parser.add_argument('--ep_len', required=False, default=None, type=int)
 parser.add_argument('--batch_size', required=False, default=128, type=int)
 parser.add_argument('--gamma', required=False, default=0.99, type=float)
 parser.add_argument('--smooth', action='store_true')
 parser.add_argument('--no_double', action='store_false')
+parser.add_argument('--q_lr', required=False, default=1e-3, type=float)
+parser.add_argument('--pi_lr', required=False, default=1e-4, type=float)
 
 
 args = parser.parse_args()
@@ -64,8 +66,8 @@ elif args.algo == 'ddpg':
     for _ in range(args.num_trial):
         run_ddpg(args.env,
                  gamma=args.gamma,
-                 actor_lr=1e-4,
-                 critic_lr=1e-3,
+                 actor_lr=args.pi_lr,
+                 critic_lr=args.q_lr,
                  polyak=1e-3,
                  sigma=0.1,
                  hidden_size1=args.hidden,
@@ -77,6 +79,7 @@ elif args.algo == 'ddpg':
                  buffer_size=1e6,
                  fill_buffer=args.fill_buffer,
                  h_scale=args.h_scale,
+                 ep_len=args.ep_len,
                  device=args.device,
                  render=args.render
                  )

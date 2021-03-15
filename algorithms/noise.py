@@ -13,7 +13,6 @@ class NoiseProcess:
         raise NotImplementedError
 
 
-
 class IndependentGaussian(NoiseProcess):
     def __init__(self, dim, sigma=0.1):
         super(IndependentGaussian, self).__init__(dim=dim)
@@ -37,3 +36,29 @@ class Zero(NoiseProcess):
 
     def reset(self):
         return np.zeros(self.dim)
+
+
+class SDE(NoiseProcess):
+    """
+    implementation of Ornstein-Uhlenbeck process with asymptotic mean 0:
+    dX_t = mu Xt dt + sigma dBt
+    For details, see [Oksendal, 2013].
+    """
+    def __init__(self, dim, sigma, dt, mu=-0.15):
+        super(SDE, self).__init__(dim=dim)
+        self.sigma = sigma
+        self.dt = dt
+        self.mu = mu
+
+        self.x = None
+
+    def sample(self):
+        dt = self.dt
+        dBt = (dt ** .5) * np.random.randn(self.dim)
+        dx = self.mu * self.x * dt + self.sigma * dBt
+        self.x += dx
+        return np.copy(self.x)
+
+    def reset(self):
+        self.x = np.zeros(self.dim)
+        return np.copy(self.x)

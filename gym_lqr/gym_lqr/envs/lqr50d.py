@@ -45,12 +45,12 @@ class LinearQuadraticRegulator50DEnv(gym.Env):
         dx = h * (k1 + 2. * k2 + 2. * k3 + k4) / 6.
         self.x = self.x + dx                    # x(t + h) = x(t) + h dx
 
-        return self.x, -costs, False, {}
+        return np.copy(self.x), -costs, False, {}
 
     def reset(self):
         # sample the initial state vector uniformly from $U[-1, 1)$
         self.x = 2. * np.random.rand(self.n) - 1.
-        return self.x
+        return np.copy(self.x)
 
     def render(self, mode='human'):
         return

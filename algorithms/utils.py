@@ -2,6 +2,7 @@ import os
 import gym
 from gym.envs.mujoco import MujocoEnv
 
+
 def freeze(net):
     for p in net.parameters():
         p.requires_grad_(False)
@@ -18,15 +19,14 @@ def get_env_spec(env):
     dimS = env.observation_space.shape[0]
     dimA = env.action_space.shape[0]
     ctrl_range = env.action_space.high
-    max_ep_len = env._max_episode_steps
     print('-' * 80)
     print('observation dim : {} / action dim : {}'.format(dimS, dimA))
     print('dt : {}'.format(env.dt))
     print('control range : {}'.format(ctrl_range))
-    print('max_ep_len : ', max_ep_len)
+
     print('-' * 80)
 
-    return dimS, dimA, env.dt, ctrl_range, max_ep_len
+    return dimS, dimA, env.dt, ctrl_range
 
 
 def set_log_dir(env_id):
