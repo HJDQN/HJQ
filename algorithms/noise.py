@@ -54,8 +54,8 @@ class SDE(NoiseProcess):
 
     def sample(self):
         dt = self.dt
-        dBt = (dt ** .5) * np.random.randn(self.dim)
-        dx = self.mu * self.x * dt + self.sigma * dBt
+        dBt = np.random.randn(self.dim)
+        dx = self.mu * self.x * dt + (self.sigma * (dt ** .5)) * dBt
         self.x += dx
         return np.copy(self.x)
 
